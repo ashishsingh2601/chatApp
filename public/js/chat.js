@@ -10,4 +10,16 @@ const socket = io();
         socket.emit('sendMessage', message);
     });
 
+    document.querySelector('#location').addEventListener('click', ()=>{
+       if(!navigator.geolocation){
+           return alert('Service is not supported by your browser!');
+       }
+
+       navigator.geolocation.getCurrentPosition((position)=>{
+        socket.emit('sendLocation', {latitude: position.coords.latitude , longitude: position.coords.longitude});
+       });
+
+       
+    });
+
 
