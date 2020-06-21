@@ -7,7 +7,12 @@ const socket = io();
     document.querySelector('#message-form').addEventListener('submit', (e)=>{
         e.preventDefault();                                                         //To avoid full page reload on submission
         const message = e.target.elements.message.value;
-        socket.emit('sendMessage', message);
+        socket.emit('sendMessage', message, (msg)=>{
+        //    if(error){
+        //        return console.log(error);
+        //    }
+           console.log(msg);
+        });
     });
 
     document.querySelector('#location').addEventListener('click', ()=>{
@@ -16,10 +21,12 @@ const socket = io();
        }
 
        navigator.geolocation.getCurrentPosition((position)=>{
-        socket.emit('sendLocation', {latitude: position.coords.latitude , longitude: position.coords.longitude});
-       });
+        socket.emit('sendLocation', {latitude: position.coords.latitude , longitude: position.coords.longitude}, ()=>{
+            console.log('Location Shared!');
+        });
+    });
 
        
-    });
+});
 
 
